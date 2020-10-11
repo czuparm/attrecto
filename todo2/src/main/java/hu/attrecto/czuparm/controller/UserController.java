@@ -38,7 +38,7 @@ public class UserController {
 	
 	@PostMapping(value = "/getOneUser")
 	public User getOneUser(Long userId) {
-		return userService.getOnUser(userId);
+		return userService.getOneUser(userId);
 	}
 	
 	@PostMapping(value = "/saveUser")

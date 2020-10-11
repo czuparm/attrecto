@@ -14,6 +14,12 @@ public interface TodoRepository extends CrudRepository<Todo, Long> {
 	
 	List<Todo> findAll();
 	
-	@Query(value= "select * from todos where user_id = :userId", nativeQuery = true)
+	@Query(value = "select * from todos where user_id = :userId", nativeQuery = true)
 	List<Todo> getTodoByUserId(@Param("userId") String userId);
+
+	@Query(value = "select *, dead_line-now() from todos t \r\n" + 
+			"where dead_line between now() and now() + interval '1' day\r\n" + 
+			"\r\n" + 
+			"", nativeQuery = true)
+	List<Todo> getCloseDeadLineTodos();
 }

@@ -1,5 +1,6 @@
 package hu.attrecto.czuparm.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -53,5 +54,11 @@ public class TodoService {
 		logger.info("A(z) " + todoId + "azonosítójú todo törlésre került");
 		todoRepository.deleteById(todoId);
 	}
+	
+	public List<Todo> getCloseDeadLineTodos(){
+		logger.info("A közeli határidős todo-k lekérése");
+		return todoRepository.getCloseDeadLineTodos();
+	}
+	
 	
 }

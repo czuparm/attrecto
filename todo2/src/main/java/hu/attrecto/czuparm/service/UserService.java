@@ -29,7 +29,7 @@ public class UserService {
 	}
 	
 	public void deleteUser(Long userId) {
-		logger.info("A(z) " + userId + "törlésre került");
+		logger.info("A(z) " + userId + "-u user törlésre került");
 		userRepository.deleteById(userId);
 	}
 	
@@ -38,16 +38,16 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	public User getOnUser(Long userId) {
-		logger.info("A(z) " + userId + "lekérése");
+	public User getOneUser(Long userId) {
+		logger.info("A(z) " + userId + " azonosítójú user lekérése");
 		return userRepository.findById(userId).get();
 	}
 
 	public User saveUser(User user) {
 		if(user.getId() == null){
-			logger.info("A(z) " + user.getUserName() + "nevű user letétrehozásra került");
+			logger.info("A(z) " + user.getUserName() + " nevű user letétrehozásra került");
 		} else {
-			logger.info("A(z) " + user.getUserName() + "nevű user módosításra került");
+			logger.info("A(z) " + user.getUserName() + " nevű user módosításra került");
 		}
 		baseService.setAuditable(user);
 		return userRepository.save(user);
