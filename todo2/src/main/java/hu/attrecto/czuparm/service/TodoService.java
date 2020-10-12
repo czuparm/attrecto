@@ -42,9 +42,9 @@ public class TodoService {
 
 	public Todo saveTodo(Todo todo) {
 		if(todo.getId() == null){
-			logger.info("A(z) " + todo.getTitel() + "című todo letétrehozásra került");
+			logger.info("A(z) " + todo.getTitle() + "című todo letétrehozásra került");
 		} else {
-			logger.info("A(z) " + todo.getTitel() + "című todo módosításra került");
+			logger.info("A(z) " + todo.getTitle() + "című todo módosításra került");
 		}
 		baseService.setAuditable(todo);
 		return todoRepository.save(todo);		

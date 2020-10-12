@@ -31,6 +31,9 @@ public class BaseService {
 	@Value("${mail.mailFrom}")
 	private String mailFrom;
 	
+	@Value("${mail.mailSendingEnable}")
+	private boolean mailSendingEnable;
+	
 	@Autowired
 	public void setJavaMailSender(JavaMailSender emailSender) {
 		this.emailSender=emailSender;
@@ -61,6 +64,10 @@ public class BaseService {
 	@Scheduled(fixedDelay = 5000)
 	private void sendEmailFromDeadLineTodos() {
 		
+		if(!mailSendingEnable) {
+			return;
+		}
+		
 		Map<Long, User> userWithId = new HashMap<Long, User>();
 		Map<Long, List<Todo>> todoWithUserId = new HashMap<Long, List<Todo>>();
 		
@@ -87,7 +94,7 @@ public class BaseService {
 			message.setSubject("Értesítés közelgő határidős feladatokról");
 			message.setTo(user.getEmail());
 			message.setText(createEmailText(user, todoWithUserId));
-			logger.info("Email küldése a " + user.getUserName() + " felhasználónak a " + user.getEmail() + " címre a hamarosan lejáró feladatokról");
+			logger.info("Email küldése a " + user.getName() + " felhasználónak a " + user.getEmail() + " címre a hamarosan lejáró feladatokról");
 			emailSender.send(message);
 		});
 		
@@ -102,7 +109,7 @@ public class BaseService {
 		sb.append("\r\n");
 		sb.append("\r\n");
 		todoWithUserId.get(user.getId()).forEach(todo->{
-			sb.append("-"+todo.getTitel());
+			sb.append("-"+todo.getTitle());
 			sb.append("\r\n");
 		});		
 		return sb.toString();

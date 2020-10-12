@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hu"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Attrecto TODO</title>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"  type="text/css"/>
+
+</head>
+<body>
+
+	<div class="container">
+  		
+  		<nav class="navbar navbar-light bg-light">
+  			<span class="navbar-brand mb-0 h1">Attrecto TODO</span>
+  			<div class="navbar-text navbar-right">
+	  			
+	  			<form sec:authorize="isAuthenticated()" id="frmlogout" th:action="@{/logout}" method="post" class="form-inline">
+					<a href="javascript:{}" onclick="document.getElementById('frmlogout').submit(); return false;">Kijelentkezés</a>
+				</form> 
+  			</div> 
+		</nav>
+		
+		<div layout:fragment="loginContent"></div>
+	
+	</div>
+	
+		
+	<!-- JS, Popper.js, and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>	
+	
+	
+</body>
+</html>

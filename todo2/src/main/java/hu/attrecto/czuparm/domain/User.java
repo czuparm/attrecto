@@ -1,34 +1,50 @@
 package hu.attrecto.czuparm.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import hu.attrecto.czuparm.intf.Auditable;
 
 @Entity
 @Table(name = "users")
-public class User implements Auditable {
+public class User{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String userName;
+	
 	private String name;
+	
+	@Column(unique = true, nullable = false)
 	private String email;
 	
-	private String createUser;
-	private LocalDateTime createDate;
-	private String lastModifyUser;
-	private LocalDateTime lastModifyDate;
-		
+	@Column( nullable=false )
+	@JsonIgnore(value = true)
+	private String password;
+	
+	@ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+	@JoinTable( 
+		name = "users_roles", 
+		joinColumns = {@JoinColumn(name="user_id")}, 
+		inverseJoinColumns = {@JoinColumn(name="role_id")}  
+	)
+	private Set<Role> roles = new HashSet<Role>();	
+	
 	public User() {
 		
 	}
@@ -39,14 +55,6 @@ public class User implements Auditable {
 	
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	public String getUserName() {
-		return userName;
-	}
-	
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 	
 	public String getName() {
@@ -64,45 +72,25 @@ public class User implements Auditable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Override
-	public String getCreateUser() {
-		return createUser;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
-	@Override
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-	
-	@Override
-	public LocalDateTime getCreateDate() {
-		return createDate;
-	}
-	
-	@Override
-	public void setCreateDate(LocalDateTime createDate) {
-		this.createDate = createDate;
-	}
-	
-	@Override
-	public String getLastModifyUser() {
-		return lastModifyUser;
-	}
-	
-	@Override
-	public void setLastModifyUser(String lastModifyUser) {
-		this.lastModifyUser = lastModifyUser;
-	}
-	
-	@Override
-	public LocalDateTime getLastModifyDate() {
-		return lastModifyDate;
-	}
-	
-	@Override
-	public void setLastModifyDate(LocalDateTime lastModifyDate) {
-		this.lastModifyDate = lastModifyDate;
+	public void addRole(Role role) {
+		this.roles.add(role);
 	}
 	
 }

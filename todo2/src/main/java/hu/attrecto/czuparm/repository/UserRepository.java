@@ -1,4 +1,4 @@
-package hu.attrecto.czuparm.repository;
+ package hu.attrecto.czuparm.repository;
 
 import java.util.List;
 
@@ -11,4 +11,7 @@ import hu.attrecto.czuparm.domain.User;
 public interface UserRepository extends CrudRepository<User, Long> {
 	
 	List<User> findAll();
+	
+	User findByEmail(String email);
+	
 }

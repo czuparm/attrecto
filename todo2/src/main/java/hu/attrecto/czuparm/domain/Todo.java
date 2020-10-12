@@ -20,7 +20,7 @@ public class Todo implements Auditable {
 	private Long id;
 
 	private Long userId;
-	private String titel;
+	private String title;
 	private String description;
 	private LocalDateTime deadLine;
 	private TodoStatus todoStatus;
@@ -47,14 +47,14 @@ public class Todo implements Auditable {
 		this.userId = userId;
 	}
 	
-	public String getTitel() {
-		return titel;
+	public String getTitle() {
+		return title;
 	}
-	
-	public void setTitel(String titel) {
-		this.titel = titel;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
