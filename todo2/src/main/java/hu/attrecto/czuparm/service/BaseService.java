@@ -61,7 +61,7 @@ public class BaseService {
 	        auditable.setLastModifyUser("Módosító");
 	}
 	
-	@Scheduled(fixedDelay = 5000)
+	@Scheduled(fixedDelay = 60000)
 	private void sendEmailFromDeadLineTodos() {
 		
 		if(!mailSendingEnable) {
@@ -95,9 +95,21 @@ public class BaseService {
 			message.setTo(user.getEmail());
 			message.setText(createEmailText(user, todoWithUserId));
 			logger.info("Email küldése a " + user.getName() + " felhasználónak a " + user.getEmail() + " címre a hamarosan lejáró feladatokról");
-			emailSender.send(message);
+			try {
+				emailSender.send(message);
+				setTodosStatusToSent(userId, todoWithUserId);
+			} catch(Exception e) {
+				logger.error(user.getName() + " felhasználónak nem sikerült a feladatokról az e-mail kiküldése", e);
+			}
 		});
 		
+	}
+
+	private void setTodosStatusToSent(Long userId, Map<Long, List<Todo>> todoWithUserId) {
+		todoWithUserId.get(userId).forEach(todo->{
+			todo.setNotificationSent(true);
+		});
+		todoService.saveTodos(todoWithUserId.get(userId));		
 	}
 
 	private String createEmailText(User user, Map<Long, List<Todo>> todoWithUserId) {

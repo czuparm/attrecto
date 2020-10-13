@@ -1,6 +1,5 @@
 package hu.attrecto.czuparm.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -58,6 +57,10 @@ public class TodoService {
 	public List<Todo> getCloseDeadLineTodos(){
 		logger.info("A közeli határidős todo-k lekérése");
 		return todoRepository.getCloseDeadLineTodos();
+	}
+
+	public void saveTodos(List<Todo> todoList) {
+		todoRepository.saveAll(todoList);		
 	}
 	
 	

@@ -25,6 +25,8 @@ public class Todo implements Auditable {
 	private LocalDateTime deadLine;
 	private TodoStatus todoStatus;
 	
+	private boolean notificationSent;
+	
 	private String createUser;
 	private LocalDateTime createDate;
 	private String lastModifyUser;
@@ -118,7 +120,13 @@ public class Todo implements Auditable {
 	public void setLastModifyDate(LocalDateTime lastModifyDate) {
 		this.lastModifyDate = lastModifyDate;
 	}
-	
-	
 
+	public boolean isNotificationSent() {
+		return notificationSent;
+	}
+
+	public void setNotificationSent(boolean notificationSent) {
+		this.notificationSent = notificationSent;
+	}
+	
 }
