@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import hu.attrecto.czuparm.domain.Todo;
@@ -51,14 +53,14 @@ public class BaseService {
 	
 	public void setAuditable(Auditable auditable) {
 		
-		 if (auditable.getCreateDate() == null) {
-	            auditable.setCreateDate(LocalDateTime.now());
-	        }
-	        if (auditable.getCreateUser() == null) {
-	            auditable.setCreateUser("Létrehozó");
-	        }
-	        auditable.setLastModifyDate(LocalDateTime.now());
-	        auditable.setLastModifyUser("Módosító");
+		if (auditable.getCreateDate() == null) {
+			auditable.setCreateDate(LocalDateTime.now());
+	    }
+	    if (auditable.getCreateUser() == null) {
+	    	auditable.setCreateUser(getCurentUser());
+	    }
+	    auditable.setLastModifyDate(LocalDateTime.now());
+	    auditable.setLastModifyUser(getCurentUser());
 	}
 	
 	@Scheduled(fixedDelay = 60000)
@@ -125,6 +127,16 @@ public class BaseService {
 			sb.append("\r\n");
 		});		
 		return sb.toString();
+	}
+	
+	public String getCurentUser() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if(principal instanceof UserDetails) {
+			return ((UserDetailsImp)principal).getNameOfUser();
+		}
+		
+		return null;
 	}
 	
 }

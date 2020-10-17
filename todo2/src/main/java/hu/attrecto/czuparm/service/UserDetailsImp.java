@@ -40,6 +40,10 @@ public class UserDetailsImp implements UserDetails {
 	@Override
 	public String getUsername() {
 		return user.getEmail();
+	} 
+	
+	public String getNameOfUser() {
+		return user.getName();
 	}
 
 	@Override
